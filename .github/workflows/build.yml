@@ -28,8 +28,6 @@ jobs:
       - name: Build APK
         run: |
           # The 'yes' command automatically accepts the license agreement
-          autoupdate
-          libtoolize
           buildozer android debug
 
       # 4. Upload the APK so you can download it
