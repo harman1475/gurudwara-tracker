@@ -10,6 +10,7 @@ package.name = gurudwara
 package.domain = org.village
 
 version = 0.1
+android.accept_sdk_license = True
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -67,3 +68,4 @@ log_level = 2
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 
 warn_on_root = 1
+
