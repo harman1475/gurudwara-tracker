@@ -11,26 +11,36 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # 1. Setup Python
+      # 1. Setup Java 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 2. Setup Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      # 2. Install Buildozer dependencies
+      # 3. Install ALL Dependencies (The "Kitchen Sink" Fix)
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtool automake autoconf libffi-dev libssl-dev
+          sudo apt-get install -y \
+            build-essential libtool automake autoconf \
+            libffi-dev libssl-dev zip unzip \
+            autopoint gettext pkg-config \
+            libltdl-dev libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev
           pip install buildozer cython==0.29.33
 
-      # 3. Run Buildozer
+      # 4. Run Buildozer
       - name: Build APK
-        run: |
-          # The 'yes' command automatically accepts the license agreement
-          buildozer android debug
+        run: buildozer android debug
 
-      # 4. Upload the APK so you can download it
+      # 5. Upload the APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
