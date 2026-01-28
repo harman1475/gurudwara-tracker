@@ -28,7 +28,7 @@ jobs:
       - name: Build APK
         run: |
           # The 'yes' command automatically accepts the license agreement
-          yes | buildozer android debug
+          buildozer android debug
 
       # 4. Upload the APK so you can download it
       - name: Upload APK
