@@ -1,0 +1,38 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # 1. Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # 2. Install Buildozer dependencies
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libtool automake autoconf libffi-dev libssl-dev
+          pip install buildozer cython==0.29.33
+
+      # 3. Run Buildozer
+      - name: Build APK
+        run: |
+          # The 'yes' command automatically accepts the license agreement
+          yes | buildozer android debug
+
+      # 4. Upload the APK so you can download it
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: GurudwaraApp
+          path: bin/*.apk
